@@ -14,12 +14,25 @@ public class Dalek {
     private boolean crash = false;
     
     // constructor
-    public Dalek(int row, int col){
+    public Dalek(int theRow, int theCol){
+        this.row = theRow;
+        this.col = theCol;
         
     }
-    
-    public void move(int newRow, int newCol){
-        
+
+    public void advanceTowards(Doctor doc){
+        if(this.crash == false){
+            /* case 1: this.row += 1;
+             * case 2: this.row -= 1;
+             * case 3: this.row += 1; & this.col += 1;
+             * case 4: this.row -= 1; & this.col += 1;
+             * case 5: this.row += 1; & this.col -= 1;
+             * case 6: this.row -= 1; & this.col -= 1;
+             * case 7: this.col += 1; 
+             * case 8: this.col -= 1;
+             * case 9: this.row = this.row; & this.col = this.col;
+             */
+        }
     }
     
     // accessor methods
@@ -36,8 +49,6 @@ public class Dalek {
     }
     
     public void crash(Dalek a){
-        if(){
-            
-        }
+        this.crash = true;
     }
 }
