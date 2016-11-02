@@ -9,46 +9,59 @@
  */
 public class Dalek {
     // instance variables
+
     private int row;
     private int col;
     private boolean crash = false;
-    
+
     // constructor
-    public Dalek(int theRow, int theCol){
+    public Dalek(int theRow, int theCol) {
         this.row = theRow;
         this.col = theCol;
-        
-    }
 
-    public void advanceTowards(Doctor doc){
-        if(this.crash == false){
-            /* case 1: this.row += 1;
-             * case 2: this.row -= 1;
-             * case 3: this.row += 1; & this.col += 1;
-             * case 4: this.row -= 1; & this.col += 1;
-             * case 5: this.row += 1; & this.col -= 1;
-             * case 6: this.row -= 1; & this.col -= 1;
-             * case 7: this.col += 1; 
-             * case 8: this.col -= 1;
-             * case 9: this.row = this.row; & this.col = this.col;
-             */
+    }
+    // method to move the daleks towards the doctor
+
+    public void advanceTowards(Doctor doc) {
+        if (this.crash == false) {
+            if (this.row < doc.getRow() && this.col == doc.getCol()) {
+                this.row += 1;
+            } else if (this.row > doc.getRow() && this.col == doc.getCol()) {
+                this.row -= 1;
+            } else if (this.row < doc.getRow() && this.col < doc.getCol()) {
+                this.row += 1;
+                this.col += 1;
+            } else if (this.row > doc.getRow() && this.col < doc.getCol()) {
+                this.row -= 1;
+                this.col += 1;
+            } else if (this.row < doc.getRow() && this.col > doc.getCol()) {
+                this.row += 1;
+                this.col -= 1;
+            } else if (this.row > doc.getRow() && this.col > doc.getCol()) {
+                this.row -= 1;
+                this.col -= 1;
+            } else if (this.row == doc.getRow() && this.col < doc.getCol()) {
+                this.col += 1;
+            } else if (this.row == doc.getRow() && this.col > doc.getCol()) {
+                this.col -= 1;
+            }
         }
     }
-    
+
     // accessor methods
-    public int getRow(){
+    public int getRow() {
         return this.row;
     }
-    
-    public int getCol(){
+
+    public int getCol() {
         return this.col;
     }
-    
-    public boolean hasCrashed(){
+
+    public boolean hasCrashed() {
         return this.crash;
     }
-    
-    public void crash(Dalek a){
+
+    public void crash(Dalek a) {
         this.crash = true;
     }
 }

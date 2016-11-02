@@ -20,30 +20,14 @@ public class Doctor {
 
     }
 
+    // to move the doctor
     public void move(int newRow, int newCol) {
-        if (this.getRow() == row + 1) {
-            this.row += 1;
-        } else if (this.getRow() == row - 1) {
-            this.row -= 1;
-        } else if (this.getCol() == col + 1) {
-            this.col += 1;
-        } else if (this.getCol() == col - 1) {
-            this.col -= 1;
-        } else if (this.getRow() == row + 1 & this.getCol() == col + 1) {
-            this.row += 1;
-            this.col += 1;
-        } else if (this.getRow() == row - 1 & this.getCol() == col + 1) {
-            this.row -= 1;
-            this.col += 1;
-        } else if (this.getRow() == row + 1 & this.getCol() == col - 1) {
-            this.row += 1;
-            this.col -= 1;
-        } else if (this.getRow() == row - 1 & this.getCol() == col - 1) {
-            this.row -= 1;
-            this.col -= 1;
+        if (newRow == row + 1 || newRow == row - 1 || newCol == col + 1 || newCol == col - 1 || (newRow == row + 1 && newCol == col + 1) || (newRow == row + 1 && newCol == col - 1) || (newRow == row - 1 && newCol == col + 1) || (newRow == row - 1 && newCol == col - 1)) {
+            row = newRow;
+            col = newCol;
         } else {
-            this.row = (int) (Math.random()) * 12;
-            this.col = (int) (Math.random()) * 12;
+            this.row = 0 + (int) (Math.random() * (12 - 0));
+            this.col = 0 + (int) (Math.random() * (12 - 0));
         }
     }
 
