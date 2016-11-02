@@ -36,14 +36,13 @@ public class Game {
      int col = click.getCol();
      // put a peg on the click
      board.putPeg(Color.MAGENTA, row, col);
-        
      }*/
     public static void main(String[] args) {
         // create the game board
         Board board = new Board(12, 12);
 
         // create doctor
-        Doctor doc = new Doctor(3, 5);
+        Doctor doc = new Doctor((0 + (int) (Math.random() * (12 - 0))), 5);
         // put a green peg where the doctor is
         board.putPeg(Color.GREEN, doc.getRow(), doc.getCol());
 
