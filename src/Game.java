@@ -18,45 +18,29 @@ public class Game {
     /**
      * @param args the command line arguments
      */
-    /*// put a peg at row, column
-     board.putPeg(Color.RED, 1, 5);
-     board.putPeg(Color.YELLOW, 2, 6);
-        
-     // remove the peg at row, column
-     board.removePeg(1, 5);
-        
-     // put a message on the board
+    /*put a message on the board
      board.displayMessage("Please click the board");
-        
-     while(true){
-     // get a click on the board
-     Coordinate click = board.getClick();
-     // get the row and column
-     int row = click.getRow();
-     int col = click.getCol();
-     // put a peg on the click
-     board.putPeg(Color.MAGENTA, row, col);
-     }*/
+     */
     public static void main(String[] args) {
         // create the game board
         Board board = new Board(12, 12);
 
         // create doctor
-        Doctor doc = new Doctor((0 + (int) (Math.random() * (12 - 0))), 5);
+        Doctor doc = new Doctor((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
         // put a green peg where the doctor is
         board.putPeg(Color.GREEN, doc.getRow(), doc.getCol());
 
         // create daleks
         // dalek 1
-        Dalek d1 = new Dalek(1, 1);
+        Dalek d1 = new Dalek((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
         // put a black peg where the dalek is 
         board.putPeg(Color.BLACK, d1.getRow(), d1.getCol());
         // dalek 2
-        Dalek d2 = new Dalek(4, 8);
+        Dalek d2 = new Dalek((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
         // put a black peg where the dalek is 
         board.putPeg(Color.BLACK, d2.getRow(), d2.getCol());
         // dalek 3
-        Dalek d3 = new Dalek(9, 2);
+        Dalek d3 = new Dalek((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
         // put a black peg where the dalek is 
         board.putPeg(Color.BLACK, d3.getRow(), d3.getCol());
 
