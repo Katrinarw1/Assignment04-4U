@@ -11,147 +11,108 @@ import java.awt.Color;
  */
 public class Game {
 
-    public int rand(int max, int min) {
-        return min + (int) (Math.random() * ((max - min) + 1));
-    }
-
     /**
      * @param args the command line arguments
-     */
-    /*put a message on the board
-     board.displayMessage("Please click the board");
      */
     public static void main(String[] args) {
         // create the game board
         Board board = new Board(12, 12);
 
-        // create doctor
+        // create the doctor
         Doctor doc = new Doctor((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
         // put a green peg where the doctor is
         board.putPeg(Color.GREEN, doc.getRow(), doc.getCol());
 
+        // array to store the 3 daleks 
+        Dalek[] dalek = new Dalek[3];
         // create daleks
-        // dalek 1
-        Dalek d1 = new Dalek((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
-        // put a black peg where the dalek is 
-        board.putPeg(Color.BLACK, d1.getRow(), d1.getCol());
-        // dalek 2
-        Dalek d2 = new Dalek((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
-        // put a black peg where the dalek is 
-        board.putPeg(Color.BLACK, d2.getRow(), d2.getCol());
-        // dalek 3
-        Dalek d3 = new Dalek((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
-        // put a black peg where the dalek is 
-        board.putPeg(Color.BLACK, d3.getRow(), d3.getCol());
+        for (int i = 0; i < 3; i++) {
+            dalek[i] = new Dalek((0 + (int) (Math.random() * (12 - 0))), (0 + (int) (Math.random() * (12 - 0))));
+            // put a black peg where the dalek is 
+            board.putPeg(Color.BLACK, dalek[i].getRow(), dalek[i].getCol());
+        }
+
+        // tell the user how to move
+        board.displayMessage("You are the green peg, click the board to move.");
+
+        // boolean to end the game 
+        boolean over = false;
 
         // make the game happen
-        while (true) {
+        while (over == false) {
             // to get a click on the board
             Coordinate click = board.getClick();
 
+            // check to see if any of the daleks captured the doctor
+            for (int i = 0; i < 3; i++) {
+                // if the dalek is on the same square as the doctor
+                if (doc.getRow() == dalek[i].getRow() && doc.getCol() == dalek[i].getCol()) {
+                    // mark the capture with a yellow peg
+                    board.putPeg(Color.YELLOW, doc.getRow(), doc.getCol());
+                    // tell the player that they lose
+                    board.displayMessage("YOU LOSE!!");
+                    over = true;
+                    // end the game
+                    break;
+                }
+            }
+
+            // check to see if all the daleks have crashed and the doctor is not on the same square
+            if (dalek[0].hasCrashed(dalek) && dalek[1].hasCrashed(dalek) && dalek[2].hasCrashed(dalek)) {
+                if (doc.getRow() != dalek[0].getRow() && doc.getCol() != dalek[0].getCol()) {
+                    // mark the collision with a red peg
+                    board.putPeg(Color.RED, dalek[0].getRow(), dalek[0].getCol());
+                    // tell the player that they win
+                    board.displayMessage("YOU WIN!!");
+                    over = true;
+                    // end the game
+                    break;
+                }
+            }
+
+            // check to see if any daleks are on the same square
+            for (int i = 0; i < 3; i++) {
+                if (dalek[i].hasCrashed(dalek)) {
+                    // mark the collision with a red peg
+                    board.putPeg(Color.RED, dalek[i].getRow(), dalek[i].getCol());
+                }
+            }
+
             // doctor moves first
-            // get the doctor's row and column
-            int row = click.getRow();
-            int col = click.getCol();
             // remove the doctor's peg
             board.removePeg(doc.getRow(), doc.getCol());
             // move the doctor
-            doc.move(row, col);
-            // put a new peg where the doctor had moved to
+            doc.move(click.getRow(), click.getCol());
+            // put a new peg where the doctor has moved to
             board.putPeg(Color.GREEN, doc.getRow(), doc.getCol());
 
+            // daleks turn
             // move the daleks if they have not crashed
-            // move dalek 1
-            // remove dalek 1's peg
-            board.removePeg(d1.getRow(), d1.getCol());
-            // make dalek 1 move towards the doctor
-            d1.advanceTowards(doc);
-            // put a black peg in dalek 1's new place
-            board.putPeg(Color.BLACK, d1.getRow(), d1.getCol());
-            
-            // if dalek 1 captures the doctor
-            if (d1.getRow() == doc.getRow() && d1.getCol() == doc.getCol()) {
-                // put a yellow peg on the spot
-                board.putPeg(Color.YELLOW, doc.getRow(), doc.getCol());
-                // end the game
-                break;
-            }
-            
-            // if dalek 1 and dalek 2 intersect
-            if (d1.getRow() == d2.getRow() && d1.getCol() == d2.getCol()){
-                // crash for dalek 1 and dalek 2 is true
-                d1.crash(d2);
-                // put a red peg to mark the spot
-                board.putPeg(Color.RED, d1.getRow(), d1.getCol());
-            }
-            // if dalek 1 and dalek 3 intersect
-            if (d1.getRow() == d3.getRow() && d1.getCol() == d3.getCol()){
-                // crash for dalek 1 and dalek 3 is true
-                d1.crash(d3);
-                // put a red peg to mark the spot
-                board.putPeg(Color.RED, d1.getRow(), d1.getCol());
-            }
-
-            // move dalek 2
-            // remove dalek 2's peg
-            board.removePeg(d2.getRow(), d2.getCol());
-            // make dalek 2 move towards the doctor
-            d2.advanceTowards(doc);
-            // put a black peg in dalek 2's new place
-            board.putPeg(Color.BLACK, d2.getRow(), d2.getCol());
-            
-            // if dalek 2 captures the doctor
-            if (d2.getRow() == doc.getRow() && d2.getCol() == doc.getCol()) {
-                // put a yellow peg on the spot
-                board.putPeg(Color.YELLOW, doc.getRow(), doc.getCol());
-                // end the game
-                break;
-            }
-            
-            // if dalek 2 and dalek 1 intersect
-            if (d2.getRow() == d1.getRow() && d2.getCol() == d1.getCol()){
-                // crash for dalek 2 and dalek 1 is true
-                d2.crash(d1);
-                // put a red peg to mark the spot
-                board.putPeg(Color.RED, d2.getRow(), d2.getCol());
-            }
-            // if dalek 2 and dalek 3 intersect
-            if (d2.getRow() == d3.getRow() && d2.getCol() == d3.getCol()){
-                // crash for dalek 2 and dalek 3 is true
-                d2.crash(d3);
-                // put a red peg to mark the spot
-                board.putPeg(Color.RED, d2.getRow(), d2.getCol());
-            }
-
-             // move dalek 3
-            // remove dalek 3's peg
-            board.removePeg(d3.getRow(), d3.getCol());
-            // make dalek 3 move towards the doctor
-            d3.advanceTowards(doc);
-            // put a black peg in dalek 3's new place
-            board.putPeg(Color.BLACK, d3.getRow(), d3.getCol());
-            
-             // if dalek 3 captures the doctor
-            if (d3.getRow() == doc.getRow() && d3.getCol() == doc.getCol()) {
-                // put a yellow peg on the spot
-                board.putPeg(Color.YELLOW, doc.getRow(), doc.getCol());
-                // end the game
-                break;
-            }
-            
-            // if dalek 3 and dalek 1 intersect
-            if (d3.getRow() == d1.getRow() && d3.getCol() == d1.getCol()){
-                // crash for dalek 3 and dalek 1 is true
-                d3.crash(d1);
-                 // put a red peg to mark the spot
-                board.putPeg(Color.RED, d3.getRow(), d3.getCol());
-            }
-            // if dalek 3 and dalek 2 intersect
-            if (d3.getRow() == d2.getRow() && d3.getCol() == d2.getCol()){
-                // crash for dalek 3 and dalek 2 is true
-                d3.crash(d2);
-                 // put a red peg to mark the spot
-                board.putPeg(Color.RED, d3.getRow(), d3.getCol());
+            for (int i = 0; i < 3; i++) {
+                if (!dalek[i].hasCrashed(dalek)) {
+                    // remove the dalek's peg
+                    board.removePeg(dalek[i].getRow(), dalek[i].getCol());
+                    // move the dalek
+                    dalek[i].advanceTowards(doc);
+                    if (dalek[i].hasCrashed(dalek)) {
+                        // mark the collision with a red peg
+                        board.putPeg(Color.RED, dalek[i].getRow(), dalek[i].getCol());
+                    }
+                    // if the player loses
+                    if (doc.getRow() == dalek[i].getRow() && doc.getCol() == dalek[i].getCol()) {
+                        // mark the capture with a yellow peg
+                        board.putPeg(Color.YELLOW, doc.getRow(), doc.getCol());
+                        // tell the player that they lose
+                        board.displayMessage("YOU LOSE!!");
+                        over = true;
+                        // end
+                        break;
+                    } // if the player has not won or lost, place the peg and keep playing
+                    else if (!dalek[i].hasCrashed(dalek)) {
+                        // place the dalek's new peg
+                        board.putPeg(Color.BLACK, dalek[i].getRow(), dalek[i].getCol());
+                    }
+                }
             }
         }
     }
